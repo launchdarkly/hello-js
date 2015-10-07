@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>LaunchDarkly tutorial</title>
+    <!-- TODO: insert your LaunchDarkly snippet here -->
+  </head>
+  <body>
+    <script>
+      var user = {
+        "firstName": "Bob",
+        "lastName": "Loblaw",
+        "key": "bob@example.com",
+        "custom": {
+          "groups": "beta_testers"
+        }
+      };
+
+      var div = document.createElement("div");
+      document.body.appendChild(div);
+
+      ldclient.identify(user);
+
+      if (ldclient.toggle("dasdda", user, false)) {
+        // application code to show the feature
+        div.appendChild(document.createTextNode("Showing your feature to " + user.key));
+      } else {
+        // the code to run if the feature is off
+        div.appendChild(document.createTextNode("Not showing your feature to " + user.key));
+      }
+    </script>
+  </body>
+</html>
