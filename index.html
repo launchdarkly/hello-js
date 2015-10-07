@@ -21,7 +21,7 @@
 
       ldclient.identify(user);
 
-      if (ldclient.toggle("dasdda", user, false)) {
+      if (ldclient.toggle("dasdda", false)) {
         // application code to show the feature
         div.appendChild(document.createTextNode("Showing your feature to " + user.key));
       } else {
