@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <title>LaunchDarkly tutorial</title>
-    <!-- TODO: insert your LaunchDarkly snippet here -->
+    <script src="https://app.launchdarkly.com/snippet/ldclient.min.js"></script>
   </head>
   <body>
     <script>
@@ -19,15 +19,16 @@
       var div = document.createElement("div");
       document.body.appendChild(div);
 
-      ldclient.identify(user);
-
-      if (ldclient.toggle("YOUR_FLAG_KEY_HERE", false)) {
-        // application code to show the feature
-        div.appendChild(document.createTextNode("Showing your feature to " + user.key));
-      } else {
-        // the code to run if the feature is off
-        div.appendChild(document.createTextNode("Not showing your feature to " + user.key));
+      var ldclient = LDClient.initialize('YOUR_CLIENT_SIDE_ID_HERE', user);
+      
+      function render() {
+        var shouldShow = ldclient.variation("YOUR_FLAG_KEY_HERE", false);
+        var label = (shouldShow ? "Showing" : "Not showing") + " your feature to " + user.key;
+        div.replaceChild(div.firstChild, document.createTextNode(label));
       }
+      
+      ldclient.on('ready', render);
+      ldclient.on('change', render);
     </script>
   </body>
 </html>
