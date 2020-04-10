@@ -24,7 +24,7 @@
       var ldclient = LDClient.initialize('YOUR_CLIENT_SIDE_ID_HERE', user);
       
       function render() {
-        var shouldShow = ldclient.variation("YOUR_FLAG_KEY_HERE", false);
+        var shouldShow = ldclient.variation("enable-lazer-beam", false);
         var label = (shouldShow ? "Showing" : "Not showing") + " your feature to " + user.key;
         div.replaceChild(document.createTextNode(label), div.firstChild);
       }
