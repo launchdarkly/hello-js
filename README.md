@@ -3,4 +3,5 @@ We've built a simple console application that demonstrates how LaunchDarkly's SD
 ##### Build instructions  #####
 1. Drop the snippet from the [Tutorial](https://app.launchdarkly.com/quickstart#/tutorial) section into the `<head>` section of `index.html`
 2. Copy your feature flag key from your LaunchDarkly dashboard into `index.html` 
-3. Open `index.html` in your browser
+3. Copy your client-side ID from your LaunchDarkly Account Settings page into `index.html` 
+4. Open `index.html` in your browser
