@@ -34,14 +34,21 @@
 
       const ldclient = LDClient.initialize(clientSideID, user);
 
-      function render() {
-        const flagValue = ldclient.variation(flagKey, false);
-        const label = 'Feature flag ' + flagKey + ' is ' + flagValue + ' for this user';
-        div.replaceChild(document.createTextNode(label), div.firstChild);
-      }
+      ldclient.waitForInitialization().then(() => {
+        div.replaceChild(document.createTextNode('SDK successfully initialized!'), div.firstChild);
 
-      ldclient.on('ready', render);
-      ldclient.on('change', render);
+        function render() {
+          const flagValue = ldclient.variation(flagKey, false);
+          const label = 'Feature flag ' + flagKey + ' is ' + flagValue + ' for this user';
+          div.replaceChild(document.createTextNode(label), div.firstChild);
+        }
+
+        render();
+        ldclient.on('change', render);
+      }).catch(err => {
+        div.appendChild(document.createTextNode('SDK failed to initialize'));
+      });
+
 
       // Here we ensure that the SDK shuts down cleanly and has a chance
       // to deliver analytics envets to LaunchDarkly before the program
