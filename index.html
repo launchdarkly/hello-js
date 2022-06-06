@@ -8,26 +8,54 @@
   </head>
   <body>
     <script>
-      var user = {
-        "key": "example-user-key",
-        "name": "Sandy"
+    function main()
+    {
+      // Set clientSideID to your LaunchDarkly client-side ID
+      const clientSideID = '';
+
+      // Set flagKey to the feature flag key you want to evaluate
+      const flagKey = 'my-boolean-flag';
+
+      // Set up the user properties. This user should appear on your
+      // LaunchDarkly users dashboard soon after you run the demo.
+      const user = {
+        'key': 'example-user-key',
+        'name': 'Sandy'
       };
 
-      var div = document.createElement("div");
+      var div = document.createElement('div');
       document.body.appendChild(div);
-      
       div.appendChild(document.createTextNode('Initializing...'));
 
-      var ldclient = LDClient.initialize('YOUR_CLIENT_SIDE_ID_HERE', user);
-      
+      if (clientSideID === '') {
+        div.replaceChild(document.createTextNode('Please edit index.html to set clientSideID to your LaunchDarkly SDK key first'), div.firstChild);
+        return;
+      }
+
+      const ldclient = LDClient.initialize(clientSideID, user);
+
+      // TODO: what's the best way to check if this succeeded,
+      // so we can then display "SDK successfully initialized!" or
+      // "SDK failed to initialize" ?
+
       function render() {
-        var shouldShow = ldclient.variation("YOUR_FLAG_KEY_HERE", false);
-        var label = (shouldShow ? "Showing" : "Not showing") + " your feature to " + user.key;
+        const flagValue = ldclient.variation(flagKey, false);
+        const label = 'Feature flag ' + flagKey + ' is ' + flagValue + ' for this user';
         div.replaceChild(document.createTextNode(label), div.firstChild);
       }
-      
+
       ldclient.on('ready', render);
       ldclient.on('change', render);
+
+      // Here we ensure that the SDK shuts down cleanly and has a chance
+      // to deliver analytics envets to LaunchDarkly before the program
+      // exits. If analytics events are not delivered, the user properties
+      // and flag usage statistics will not appear on your dashboard.
+      // In a normal long-running application, the SDK would continue
+      // running and events would be delivered automatically in the background.
+      ldclient.close();
+    }
+    main();
     </script>
   </body>
 </html>
