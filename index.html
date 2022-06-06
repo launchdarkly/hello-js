@@ -34,10 +34,6 @@
 
       const ldclient = LDClient.initialize(clientSideID, user);
 
-      // TODO: what's the best way to check if this succeeded,
-      // so we can then display "SDK successfully initialized!" or
-      // "SDK failed to initialize" ?
-
       function render() {
         const flagValue = ldclient.variation(flagKey, false);
         const label = 'Feature flag ' + flagKey + ' is ' + flagValue + ' for this user';
