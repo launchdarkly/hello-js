@@ -28,26 +28,26 @@
       div.appendChild(document.createTextNode('Initializing...'));
 
       if (clientSideID === '') {
-        div.replaceChild(document.createTextNode('Please edit index.html to set clientSideID to your LaunchDarkly SDK key first'), div.firstChild);
+        div.replaceChild(document.createTextNode('Please edit index.html to set clientSideID to your LaunchDarkly client-side ID first'), div.firstChild);
         return;
       }
 
       const ldclient = LDClient.initialize(clientSideID, user);
 
-      ldclient.waitForInitialization().then(() => {
-        div.replaceChild(document.createTextNode('SDK successfully initialized!'), div.firstChild);
+      function render() {
+        const flagValue = ldclient.variation(flagKey, false);
+        const label = 'Feature flag ' + flagKey + ' is ' + flagValue + ' for this user';
+        div.replaceChild(document.createTextNode(label), div.firstChild);
+      }
 
-        function render() {
-          const flagValue = ldclient.variation(flagKey, false);
-          const label = 'Feature flag ' + flagKey + ' is ' + flagValue + ' for this user';
-          div.replaceChild(document.createTextNode(label), div.firstChild);
-        }
-
-        render();
-        ldclient.on('change', render);
-      }).catch(err => {
-        div.appendChild(document.createTextNode('SDK failed to initialize'));
+      ldclient.on('initialized', () => {
+        div.appendChild(document.createTextNode('SDK successfully initialized!'), div.firstChild);
       });
+      ldclient.on('failed', () => {
+        div.appendChild(document.createTextNode('SDK failed to initialize'), div.firstChild);
+      });
+      ldclient.on('ready', render);
+      ldclient.on('change', render);
 
 
       // Here we ensure that the SDK shuts down cleanly and has a chance
