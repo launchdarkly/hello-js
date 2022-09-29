@@ -4,12 +4,13 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge;chrome=1">
     <title>LaunchDarkly tutorial</title>
-    <script src="http://localhost:8080/ldclient.min.js"></script>
+    <script src="https://unpkg.com/browser-cjs/require.min.js"></script>
   </head>
   <body>
     <script>
     function main()
     {
+      const LDClient = require("ldclient.cjs.js");
       // Set clientSideID to your LaunchDarkly client-side ID
       const clientSideID = '';
 
