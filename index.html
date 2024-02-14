@@ -37,7 +37,7 @@
 
       function render() {
         const flagValue = ldclient.variation(flagKey, false);
-        const label = 'Feature flag ' + flagKey + ' is ' + flagValue + ' for this context';
+        const label = 'Feature flag ' + flagKey + ' is ' + flagValue + ' for this context. ';
         div.replaceChild(document.createTextNode(label), div.firstChild);
       }
 
@@ -50,14 +50,12 @@
       ldclient.on('ready', render);
       ldclient.on('change', render);
 
+      // The js-client-sdk will flush analytics events automatically every 2 seconds.
 
-      // Here we ensure that the SDK shuts down cleanly and has a chance
-      // to deliver analytics events to LaunchDarkly before the program
-      // exits. If analytics events are not delivered, the context properties
+      // If analytics events are not delivered, the context properties
       // and flag usage statistics will not appear on your dashboard.
       // In a normal long-running application, the SDK would continue
-      // running and events would be delivered automatically in the background.
-      ldclient.close();
+      // running and events would be delivered automatically in the background
     }
     main();
     </script>
