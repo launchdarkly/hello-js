@@ -49,13 +49,6 @@
       });
       ldclient.on('ready', render);
       ldclient.on('change', render);
-
-      // The js-client-sdk will flush analytics events automatically every 2 seconds.
-
-      // If analytics events are not delivered, the context properties
-      // and flag usage statistics will not appear on your dashboard.
-      // In a normal long-running application, the SDK would continue
-      // running and events would be delivered automatically in the background
     }
     main();
     </script>
