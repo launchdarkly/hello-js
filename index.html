@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge;chrome=1">
     <title>LaunchDarkly tutorial</title>
     <script src="https://unpkg.com/launchdarkly-js-client-sdk@3"></script>
+    <link rel="stylesheet" href="./index.css">
   </head>
   <body>
     <script>
@@ -14,9 +15,9 @@
       const clientSideID = '';
 
       // Set flagKey to the feature flag key you want to evaluate
-      const flagKey = 'my-boolean-flag';
+      const flagKey = 'sample-feature';
 
-      // Set up the context properties. This context should appear on your
+      // Set up the evaluation context. This context should appear on your
       // LaunchDarkly contexts dashboard soon after you run the demo.
       const context = {
         kind: 'user',
@@ -38,6 +39,11 @@
       function render() {
         const flagValue = ldclient.variation(flagKey, false);
         const label = 'Feature flag ' + flagKey + ' is ' + flagValue + ' for this context. ';
+        if (flagValue) {
+          document.body.style.background =  "#00844B";
+        } else {
+          document.body.style.background =  "#373841";
+        }
         div.replaceChild(document.createTextNode(label), div.firstChild);
       }
 
