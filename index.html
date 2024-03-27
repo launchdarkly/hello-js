@@ -48,10 +48,10 @@
       }
 
       ldclient.on('initialized', () => {
-        div.appendChild(document.createTextNode('SDK successfully initialized!'), div.firstChild);
+        div.replaceChild(document.createTextNode('SDK successfully initialized!'), div.firstChild);
       });
       ldclient.on('failed', () => {
-        div.appendChild(document.createTextNode('SDK failed to initialize'), div.firstChild);
+        div.replaceChild(document.createTextNode('SDK failed to initialize'), div.firstChild);
       });
       ldclient.on('ready', render);
       ldclient.on('change', render);
