@@ -38,7 +38,7 @@
 
       function render() {
         const flagValue = ldclient.variation(flagKey, false);
-        const label = 'Feature flag ' + flagKey + ' is ' + flagValue + ' for this context. ';
+        const label = 'The ' + flagKey + ' feature flag evaluates to ' + flagValue + '.';
         if (flagValue) {
           document.body.style.background =  "#00844B";
         } else {
