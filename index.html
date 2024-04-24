@@ -38,7 +38,7 @@
 
       function render() {
         const flagValue = ldclient.variation(flagKey, false);
-      const label = `The ${flagKey} feature flag evalutes to ${flagValue}.`;
+      const label = `The ${flagKey} feature flag evaluates to ${flagValue}.`;
       document.body.style.background = flagValue ? '#00844B' : '#373841';
         div.replaceChild(document.createTextNode(label), div.firstChild);
       }
