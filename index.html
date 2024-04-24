@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge;chrome=1">
     <title>LaunchDarkly tutorial</title>
     <script src="https://unpkg.com/launchdarkly-js-client-sdk@3"></script>
+    <link rel="stylesheet" href="./index.css">
   </head>
   <body>
     <script>
@@ -14,9 +15,9 @@
       const clientSideID = '';
 
       // Set flagKey to the feature flag key you want to evaluate
-      const flagKey = 'my-boolean-flag';
+      const flagKey = 'sample-feature';
 
-      // Set up the context properties. This context should appear on your
+      // Set up the evaluation context. This context should appear on your
       // LaunchDarkly contexts dashboard soon after you run the demo.
       const context = {
         kind: 'user',
@@ -37,15 +38,16 @@
 
       function render() {
         const flagValue = ldclient.variation(flagKey, false);
-        const label = 'Feature flag ' + flagKey + ' is ' + flagValue + ' for this context. ';
+      const label = `The ${flagKey} feature flag evalutes to ${flagValue}.`;
+      document.body.style.background = flagValue ? '#00844B' : '#373841';
         div.replaceChild(document.createTextNode(label), div.firstChild);
       }
 
       ldclient.on('initialized', () => {
-        div.appendChild(document.createTextNode('SDK successfully initialized!'), div.firstChild);
+        div.replaceChild(document.createTextNode('SDK successfully initialized!'), div.firstChild);
       });
       ldclient.on('failed', () => {
-        div.appendChild(document.createTextNode('SDK failed to initialize'), div.firstChild);
+        div.replaceChild(document.createTextNode('SDK failed to initialize'), div.firstChild);
       });
       ldclient.on('ready', render);
       ldclient.on('change', render);
