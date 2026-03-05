@@ -4,12 +4,13 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge;chrome=1">
     <title>LaunchDarkly tutorial</title>
-    <script src="https://unpkg.com/launchdarkly-js-client-sdk@3"></script>
     <link rel="stylesheet" href="./index.css">
   </head>
   <body>
-    <script>
-    function main()
+    <script type="module">
+    import { createClient } from 'https://unpkg.com/@launchdarkly/js-client-sdk@4/dist/index.js';
+
+    async function main()
     {
       // Set clientSideID to your LaunchDarkly client-side ID
       const clientSideID = '';
@@ -34,23 +35,23 @@
         return;
       }
 
-      const ldclient = LDClient.initialize(clientSideID, context);
+      const ldclient = createClient(clientSideID, context);
 
       function render() {
         const flagValue = ldclient.variation(flagKey, false);
-      const label = `The ${flagKey} feature flag evaluates to ${flagValue}.`;
-      document.body.style.background = flagValue ? '#00844B' : '#373841';
+        const label = `The ${flagKey} feature flag evaluates to ${flagValue}.`;
+        document.body.style.background = flagValue ? '#00844B' : '#373841';
         div.replaceChild(document.createTextNode(label), div.firstChild);
       }
 
-      ldclient.on('initialized', () => {
-        div.replaceChild(document.createTextNode('SDK successfully initialized!'), div.firstChild);
-      });
-      ldclient.on('failed', () => {
-        div.replaceChild(document.createTextNode('SDK failed to initialize'), div.firstChild);
-      });
-      ldclient.on('ready', render);
       ldclient.on('change', render);
+
+      const result = await ldclient.start();
+      if (result.status === 'complete') {
+        render();
+      } else {
+        div.replaceChild(document.createTextNode('SDK failed to initialize'), div.firstChild);
+      }
     }
     main();
     </script>
